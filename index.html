@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    function askUser() {
+      let question = prompt('Select a Scissors, Paper or Rock').toLowerCase();
+      if (question != 'scissors' && question != 'paper' && question != 'rock') {
+        question = askUser();
+      } else {
+        return question;
+      }
+    }
+   
+    function computerPlay() {
+      let array = ['scissors', 'paper', 'rock'];
+      let minItem = 0;
+      let maxItem = 2;
+      return array[Math.round((maxItem - minItem + 1)*Math.random() + minItem - 0.5)]
+    }
+
+    function playRound(playerSelection, computerSelection) {
+      let options = {
+        'scissors': {
+          'paper': 0,
+          'scissors': 1,
+          'rock': 2
+        },
+        'paper': {
+          'rock': 0,
+          'paper': 1,
+          'scissors': 2
+        },
+        'rock': {
+          'scissors': 0,
+          'rock': 1,
+          'paper': 2
+        }
+      }
+
+      let result = options[playerSelection][computerSelection];
+
+      if (result == 1) {
+        console.log('Draw!');
+      } else if (result == 2) {
+        console.log(`You lose! ${computerSelection} beats ${playerSelection.toLowerCase()}`);
+      } else {
+        console.log(`You win! ${playerSelection.toLowerCase()} beats ${computerSelection}`);
+      }
+
+      return result;
+    }
+
+    function game(item) {
+      let userWin = 0;
+      let userLose = 0;
+      let draw = 0;
+
+      for (let i = 0; i < item; i++) {
+        let gameResult = playRound(askUser(), computerPlay());
+        if (gameResult == 1) {
+          ++draw;
+        } else if (gameResult == 2) {
+          ++userLose;
+        } else {
+          ++userWin;
+        }
+      }
+
+      console.log(`score: User win ${userWin} times, Computer win ${userLose} times, Draw ${draw} times`)
+
+      if (userWin > userLose) {
+        return 'User win!';
+      } else if (userWin < userLose) {
+        return 'User lose!';
+      } else {
+        return 'Draw!';
+      } 
+    }
+
+    console.log(game(5));
+  </script>
+</body>
+</html>
